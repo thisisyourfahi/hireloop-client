@@ -6,20 +6,23 @@ import {
     Input,
     Button,
     Label,
+    RadioGroup,
+    Radio,
 } from "@heroui/react";
 import { useState } from "react";
 
 export default function SignUpForm() {
     const [isLoading, setIsLoading] = useState(false);
-    
+    const [role, setRole] = useState('seeker')
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const {name, email, imageUrl, password} = Object.fromEntries(formData.entries());
+        const { name, email, imageUrl, password } = Object.fromEntries(formData.entries());
 
         setIsLoading(true);
-        const {data, error} = await authClient.signUp.email({
-            email, password, name, 
+        const { data, error } = await authClient.signUp.email({
+            email, password, name, role,
             image: imageUrl
         })
         setIsLoading(false);
@@ -107,6 +110,29 @@ export default function SignUpForm() {
                             variant="bordered"
                             radius="sm"
                         />
+                    </div>
+
+                    {/* Role Selection */}
+                    <div className="flex flex-col gap-4">
+                        <Label>Who Are You?</Label>
+                        <RadioGroup onChange={value => setRole(value)} defaultValue="seeker" name="role" orientation="horizontal">
+                            <Radio value="seeker">
+                                <Radio.Control>
+                                    <Radio.Indicator />
+                                </Radio.Control>
+                                <Radio.Content>
+                                    <Label>Job Seeker</Label>
+                                </Radio.Content>
+                            </Radio>
+                            <Radio value="recruiter">
+                                <Radio.Control>
+                                    <Radio.Indicator />
+                                </Radio.Control>
+                                <Radio.Content>
+                                    <Label>Recruiter</Label>
+                                </Radio.Content>
+                            </Radio>
+                        </RadioGroup>
                     </div>
 
                     {/* Actions */}

@@ -3,8 +3,6 @@ import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 
 const client = new MongoClient(process.env.MONGODB_URI);
-console.log(process.env.MONGODB_URI);
-
 await client.connect();
 const db = client.db('hireloop_db')
 
@@ -15,4 +13,11 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
     },
+    user: {
+        additionalFields: {
+            role: {
+                default: 'seeker'
+            }
+        }
+    }
 });
