@@ -69,10 +69,10 @@ export default function Navbar() {
                             Sign In
                         </Link>
                         <Link
-                            href="/get-started"
+                            href="/sign-up"
                             className="text-sm font-medium bg-violet-600 hover:bg-violet-500 text-white px-5 py-2 rounded-full transition-colors duration-150"
                         >
-                            Get Started
+                            Sign Up
                         </Link>
                     </div>
 
