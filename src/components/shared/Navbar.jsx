@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { authClient, useSession } from "@/lib/auth-client";
+import NavbarTopRight from "./NavbarTopRight";
 
 const navLinks = [
     { label: "Browse Jobs", href: "/jobs" },
@@ -10,7 +12,11 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+    const { data, isPending } = useSession();
+    const user = data?.user;
+
     const [isOpen, setIsOpen] = useState(false);
+
 
     return (
         <nav className="bg-[#1c1c1e] border-b border-white/5 w-full">
@@ -62,18 +68,25 @@ export default function Navbar() {
 
                     {/* Right actions — desktop */}
                     <div className="hidden md:flex items-center gap-4">
-                        <Link
-                            href="/sign-in"
-                            className="text-sm text-white/75 hover:text-white transition-colors duration-150"
-                        >
-                            Sign In
-                        </Link>
-                        <Link
-                            href="/sign-up"
-                            className="text-sm font-medium bg-violet-600 hover:bg-violet-500 text-white px-5 py-2 rounded-full transition-colors duration-150"
-                        >
-                            Sign Up
-                        </Link>
+                        {
+                            isPending ? <span className="loading loading-ring loading-xl"></span> : user ? <>
+                                <NavbarTopRight />
+                            </> : <>
+                                <Link
+                                    href="/sign-in"
+                                    className="text-sm text-white/75 hover:text-white transition-colors duration-150"
+                                >
+                                    Sign In
+                                </Link>
+                                <Link
+                                    href="/sign-up"
+                                    className="text-sm font-medium bg-violet-600 hover:bg-violet-500 text-white px-5 py-2 rounded-full transition-colors duration-150"
+                                >
+                                    Sign Up
+                                </Link>
+                            </>
+                        }
+
                     </div>
 
                     {/* Hamburger — mobile */}

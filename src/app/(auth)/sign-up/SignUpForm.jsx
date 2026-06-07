@@ -7,18 +7,22 @@ import {
     Button,
     Label,
 } from "@heroui/react";
+import { useState } from "react";
 
 export default function SignUpForm() {
+    const [isLoading, setIsLoading] = useState(false);
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const {name, email, imageUrl, password} = Object.fromEntries(formData.entries());
-        console.log({name, email, imageUrl, password})
 
+        setIsLoading(true);
         const {data, error} = await authClient.signUp.email({
             email, password, name, 
             image: imageUrl
         })
+        setIsLoading(false);
         if (data) {
             alert('Signup Successfull');
         } else {
@@ -113,7 +117,7 @@ export default function SignUpForm() {
                             radius="sm"
                             className="flex-1 font-medium"
                         >
-                            Sign Up
+                            {isLoading ? "Signin up..." : 'Sign Up'}
                         </Button>
                         <Button
                             type="reset"
@@ -121,6 +125,7 @@ export default function SignUpForm() {
                             color="default"
                             radius="sm"
                             className="flex-1 font-medium"
+                            isDisabled={isLoading}
                         >
                             Reset
                         </Button>

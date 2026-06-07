@@ -7,18 +7,26 @@ import {
     Button,
     Label,
 } from "@heroui/react";
+import { useState } from "react";
 
 export default function SigninForm() {
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleSignin = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const { email, password} = Object.fromEntries(formData.entries());
 
+        setIsLoading(true)
         const {data, error} = await authClient.signIn.email({
             email, password
         })
+        setIsLoading(false)
         if (data) {
             alert('Signin Successfull');
+            // router.push('/')
+            // router.refresh()
+            window.location.href = '/'
         } else {
             alert(error?.message)
         }
@@ -78,8 +86,9 @@ export default function SigninForm() {
                             color="primary"
                             radius="sm"
                             className="flex-1 font-medium"
+                            // isPending={isLoading}
                         >
-                            Sign In
+                            {isLoading? "Signing in..." : "Sign In"}
                         </Button>
                         <Button
                             type="reset"
@@ -87,6 +96,7 @@ export default function SigninForm() {
                             color="default"
                             radius="sm"
                             className="flex-1 font-medium"
+                            isDisabled={isLoading}
                         >
                             Reset
                         </Button>
