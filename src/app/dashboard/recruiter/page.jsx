@@ -7,6 +7,7 @@ import React from 'react';
 const RecruiterPage = () => {
     const { data: session, isPending } = useSession();
     const user = session?.user
+    console.log(user?.id);
 
     if (isPending) {
         return <div>Loading...</div>

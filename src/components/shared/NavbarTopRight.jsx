@@ -11,7 +11,6 @@ const NavbarTopRight = () => {
 
     const { data, isPending } = useSession();
     const user = data?.user;
-    console.log(user);
     const handleLogout = async () => {
         const res = await authClient.signOut();
         if (res?.data?.success) {

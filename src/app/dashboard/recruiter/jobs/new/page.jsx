@@ -57,7 +57,7 @@ const NewJob = () => {
         if (res.acknowledged) {
             alert('Job posted successfully');
             e.target.reset()
-            window.location.href = '/dashboard/recruiter'
+            window.location.href = '/dashboard/recruiter/jobs'
         } else {
             alert('Something went wrong. Please try later.')
         }
