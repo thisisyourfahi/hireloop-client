@@ -14,7 +14,7 @@ const navLinks = [
 export default function Navbar() {
     const { data, isPending } = useSession();
     const user = data?.user;
-    console.log(user);
+    // console.log(user);
 
     const [isOpen, setIsOpen] = useState(false);
 

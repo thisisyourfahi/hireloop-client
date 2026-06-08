@@ -1,8 +1,11 @@
+'use client'
 import { LayoutSideContentLeft, Bell, Briefcase, Envelope, Gear, House, Magnifier, Person } from "@gravity-ui/icons";
 import { Button, Drawer, DrawerCloseTrigger } from "@heroui/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
+    const pathName = usePathname();
     const navItems = [
         { icon: House, href: "/dashboard/recruiter", label: "Home" },
         { icon: Magnifier, href: "/dashboard/recruiter/jobs", label: "Jobs" },
@@ -17,7 +20,7 @@ const Sidebar = () => {
         {navItems.map((item) => (
             <Link
                 key={item.label}
-                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default"
+                className={`${pathName === item.href ? 'bg-default' : ''} flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default`}
                 href={item.href}
             >
                 <item.icon className="size-5 text-muted" />

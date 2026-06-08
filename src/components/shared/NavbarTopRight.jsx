@@ -11,6 +11,7 @@ const NavbarTopRight = () => {
 
     const { data, isPending } = useSession();
     const user = data?.user;
+    console.log(user);
     const handleLogout = async () => {
         const res = await authClient.signOut();
         if (res?.data?.success) {
@@ -32,7 +33,7 @@ const NavbarTopRight = () => {
                         <Link href={'/profile'}>Profile</Link>
                     </li>
                     <li>
-                        <Link href={'/dashboard'}>Dashboard</Link>
+                        <Link href={`/dashboard/${user?.role}`}>Dashboard</Link>
                     </li>
                     <li>
                         <Button onClick={handleLogout} size="sm" variant="danger-soft" className={'rounded-sm w-full'}>Logout</Button>
