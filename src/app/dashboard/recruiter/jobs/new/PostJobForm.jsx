@@ -48,6 +48,8 @@ const PostJobForm = ({company}) => {
             ...data,
             isRemote,
             companyId: company._id,
+            companyName: company.name, 
+            companyLogo: company.logo,
             status: "active",
             isPubliclyVisible: true,
         };
