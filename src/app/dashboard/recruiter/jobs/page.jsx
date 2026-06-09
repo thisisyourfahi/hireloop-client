@@ -9,7 +9,6 @@ import NoJobs from './NoJobs';
 const RecruiterJobs = async () => {
     const company = await getLoggedInRecruiterCompany();
     const jobs = await getCompanyJobs(company._id);
-    console.log('jobs:', jobs)
 
     if (jobs.length < 1) {
         return (

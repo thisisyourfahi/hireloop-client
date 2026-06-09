@@ -30,6 +30,7 @@ const daysUntil = (dateStr) => {
 
 export default function JobCard({ job }) {
     const {
+        _id,
         jobTitle,
         jobType,
         location,
@@ -110,7 +111,7 @@ export default function JobCard({ job }) {
                     <div>
                         <p className="text-xs text-white/30">Closes {new Date(deadline).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}</p>
                     </div>
-                    <Link href={'#'}>
+                    <Link href={`/jobs/${_id}`}>
                         <Button size="sm" className={'text-xs rounded-md'}>
                             Apply Now <ChevronRight />
                         </Button>

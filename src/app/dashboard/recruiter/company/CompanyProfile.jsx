@@ -108,17 +108,11 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
             recruiterId: recruiter.id // Associate company with the current recruiter
         }
         setCompany(newCompanyData);
-        console.log(company)
-
-        console.log("Submitted Company Profile Data:", newCompanyData);
-
         const payload = await createCompany(newCompanyData);
-
         if (payload.insertedId) {
-
-            toast.success("Company profile created successfully!");
+            alert.success("Company profile created successfully!");
+            window.location.href = '/dashboard/recruiter/company'
         }
-
 
         setErrors({});
         setIsEditing(false);
