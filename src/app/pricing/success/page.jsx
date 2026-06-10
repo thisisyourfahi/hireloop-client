@@ -1,6 +1,8 @@
 import { stripe } from '@/lib/stripe'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { getUserSession } from '@/lib/core/session'
+import { addSubscription } from '@/lib/actions/plans'
 
 export default async function Success({ searchParams }) {
     const { session_id } = await searchParams
@@ -10,7 +12,8 @@ export default async function Success({ searchParams }) {
 
     const {
         status,
-        customer_details: { email: customerEmail }
+        customer_details: { email: customerEmail },
+        metadata
     } = await stripe.checkout.sessions.retrieve(session_id, {
         expand: ['line_items', 'payment_intent']
     })
@@ -20,9 +23,16 @@ export default async function Success({ searchParams }) {
     }
 
     if (status === 'complete') {
+        // update user's plan status
+        const subInfo = {
+            email: customerEmail,
+            planId: metadata.planId
+        }
+        const res = await addSubscription(subInfo);
+
         return (
             <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4">
-                <div className="bg-[#1c1c1e] border border-white/[0.06] rounded-2xl p-10 max-w-md w-full flex flex-col items-center text-center">
+                <div className="bg-[#1c1c1e] border border-white/6 rounded-2xl p-10 max-w-md w-full flex flex-col items-center text-center">
 
                     {/* Icon */}
                     <div className="w-16 h-16 rounded-full bg-[#F97316]/10 border border-[#F97316]/20 flex items-center justify-center mb-6">

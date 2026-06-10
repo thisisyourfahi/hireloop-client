@@ -26,8 +26,9 @@ export default function SignUpForm() {
         const { name, email, imageUrl, password } = Object.fromEntries(formData.entries());
 
         setIsLoading(true);
+        const plan = role === 'seeker' ? 'seeker_free' : 'recruiter_free';
         const { data, error } = await authClient.signUp.email({
-            email, password, name, role,
+            email, password, name, role, plan,
             image: imageUrl, callbackURL: callbackUrl || '/'
         })
         setIsLoading(false);

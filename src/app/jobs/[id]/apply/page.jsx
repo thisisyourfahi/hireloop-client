@@ -7,6 +7,8 @@ import { JobApplyForm } from './JobApplyForm';
 import { getApplicationsByApplicant } from '@/lib/api/applications';
 import { ShieldExclamation } from '@gravity-ui/icons';
 import { ApplicationLimit } from './ApplicationLimit';
+import { getUserById } from '@/lib/api/user';
+import { getPlanByName } from '@/lib/api/plans';
 
 const ApplyPage = async ({ params }) => {
     const { id } = await params;
@@ -26,8 +28,10 @@ const ApplyPage = async ({ params }) => {
     }
 
     // number of applications already made by the user
+    const plan = await getPlanByName(user?.plan);
+    console.log('refactor:',plan);
     const usersApplications = await getApplicationsByApplicant(user.id);
-    if (usersApplications.length >= 3) {
+    if (usersApplications.length >= plan.maximumApplicationLimit) {
         return <ApplicationLimit />
     }
 
