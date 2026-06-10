@@ -9,6 +9,7 @@ import React from 'react';
 const seekerPlans = [
     {
         name: "Free",
+        id: 'seeker_free',
         price: "$0",
         period: "forever",
         tagline: "Get started, no strings attached.",
@@ -23,6 +24,7 @@ const seekerPlans = [
     },
     {
         name: "Pro",
+        id: 'seeker_pro',
         price: "$19",
         period: "per month",
         tagline: "For active job seekers who mean business.",
@@ -37,6 +39,7 @@ const seekerPlans = [
     },
     {
         name: "Premium",
+        id: 'seeker_premium',
         price: "$39",
         period: "per month",
         tagline: "Every edge, all at once.",
@@ -55,6 +58,7 @@ const seekerPlans = [
 const recruiterPlans = [
     {
         name: "Free",
+        id: 'recruiter_free',
         price: "$0",
         period: "forever",
         tagline: "Perfect for a company's first year of hiring.",
@@ -68,6 +72,7 @@ const recruiterPlans = [
     },
     {
         name: "Growth",
+        id: 'recruiter_growth',
         price: "$49",
         period: "per month",
         tagline: "Scale your hiring without the overhead.",
@@ -82,6 +87,7 @@ const recruiterPlans = [
     },
     {
         name: "Enterprise",
+        id: 'recruiter_enterprise',
         price: "$149",
         period: "per month",
         tagline: "Built for teams that hire at scale.",
@@ -102,8 +108,8 @@ function PlanCard({ plan }) {
     return (
         <div
             className={`relative flex flex-col rounded-2xl p-6 border transition-all duration-200 ${plan.highlight
-                    ? "bg-[#1c1c1e] border-[#F97316]/40 shadow-[0_0_40px_-10px_rgba(249,115,22,0.2)]"
-                    : "bg-[#1c1c1e] border-white/[0.06] hover:border-white/[0.12]"
+                ? "bg-[#1c1c1e] border-[#F97316]/40 shadow-[0_0_40px_-10px_rgba(249,115,22,0.2)]"
+                : "bg-[#1c1c1e] border-white/6 hover:border-white/12"
                 }`}
         >
             {plan.highlight && (
@@ -136,15 +142,20 @@ function PlanCard({ plan }) {
                     </li>
                 ))}
             </ul>
-
-            <Button
-                className={`w-full rounded-xl text-sm font-medium ${plan.highlight
-                        ? "bg-[#F97316] hover:bg-orange-500 text-white"
-                        : "bg-white/[0.06] hover:bg-white/[0.10] text-white/80"
-                    }`}
-            >
-                {plan.cta}
-            </Button>
+            <form action="/api/checkout_sessions" method="POST">
+                <input type="hidden" name="plan_id" value={plan.id}/>
+                <section>
+                    <Button
+                        type="submit" role="link"
+                        className={`w-full rounded-xl text-sm font-medium ${plan.highlight
+                            ? "bg-[#F97316] hover:bg-orange-500 text-white"
+                            : "bg-white/6 hover:bg-white/10 text-white/80"
+                            }`}
+                    >
+                        {plan.cta}
+                    </Button>
+                </section>
+            </form>
         </div>
     );
 }
@@ -175,8 +186,8 @@ export default function PricingPage() {
                         onPress={() => setTab("seeker")}
                         startContent={<Person />}
                         className={`rounded-lg text-sm font-medium transition-all duration-200 ${tab === "seeker"
-                                ? "bg-[#F97316] text-white shadow-sm"
-                                : "bg-transparent text-white/45 hover:text-white/70"
+                            ? "bg-[#F97316] text-white shadow-sm"
+                            : "bg-transparent text-white/45 hover:text-white/70"
                             }`}
                     >
                         For Job Seekers
@@ -185,8 +196,8 @@ export default function PricingPage() {
                         onPress={() => setTab("recruiter")}
                         startContent={<Briefcase />}
                         className={`rounded-lg text-sm font-medium transition-all duration-200 ${tab === "recruiter"
-                                ? "bg-[#F97316] text-white shadow-sm"
-                                : "bg-transparent text-white/45 hover:text-white/70"
+                            ? "bg-[#F97316] text-white shadow-sm"
+                            : "bg-transparent text-white/45 hover:text-white/70"
                             }`}
                     >
                         For Recruiters
