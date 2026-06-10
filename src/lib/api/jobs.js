@@ -13,6 +13,5 @@ export const getJobs = async () => {
 }
 
 export const getCompanyJobs = async (companyId, status = 'active') => {
-    const res = await fetch(`${serverUrl}/api/jobs?companyId=${companyId}&status=${status}`)
-    return res.json() 
+    return serverFetch(`/api/jobs?companyId=${companyId}&status=${status}`)
 }

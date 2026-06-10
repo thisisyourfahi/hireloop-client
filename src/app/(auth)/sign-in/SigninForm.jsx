@@ -7,10 +7,14 @@ import {
     Button,
     Label,
 } from "@heroui/react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function SigninForm() {
     const [isLoading, setIsLoading] = useState(false);
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get('callbackUrl')
 
     const handleSignin = async (e) => {
         e.preventDefault();
@@ -19,7 +23,8 @@ export default function SigninForm() {
 
         setIsLoading(true)
         const {data, error} = await authClient.signIn.email({
-            email, password
+            email, password,
+            callbackURL: callbackUrl || '/'
         })
         setIsLoading(false)
         if (data) {
@@ -105,9 +110,9 @@ export default function SigninForm() {
                     {/* Sign-up link */}
                     <p className="text-center text-sm text-default-500 pt-1">
                         Don&apos;t have an account?{" "}
-                        <a href="/sign-up" className="text-primary font-medium hover:underline">
-                            Sign up
-                        </a>
+                        <Link href={`/sign-up?callbackUrl=${callbackUrl}`} className="text-primary font-medium hover:underline">
+                            Create an account
+                        </Link>
                     </p>
 
                 </Form>

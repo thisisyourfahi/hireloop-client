@@ -227,9 +227,11 @@ export default function JobDetails({ job }) {
                             })}
                         </p>
                     </div>
-                    <button className="bg-orange-500 hover:bg-orange-400 active:scale-95 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-150">
-                        Apply Now
-                    </button>
+                    <Link href={`/jobs/${job._id}/apply`}>
+                        <button className="bg-orange-500 hover:bg-orange-400 active:scale-95 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-150">
+                            Apply Now
+                        </button>
+                    </Link>
                 </div>
             </div>
 

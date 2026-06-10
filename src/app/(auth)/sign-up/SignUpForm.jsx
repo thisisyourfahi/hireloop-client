@@ -9,11 +9,16 @@ import {
     RadioGroup,
     Radio,
 } from "@heroui/react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function SignUpForm() {
     const [isLoading, setIsLoading] = useState(false);
     const [role, setRole] = useState('seeker')
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get('callbackUrl')
+    const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,11 +28,13 @@ export default function SignUpForm() {
         setIsLoading(true);
         const { data, error } = await authClient.signUp.email({
             email, password, name, role,
-            image: imageUrl
+            image: imageUrl, callbackURL: callbackUrl || '/'
         })
         setIsLoading(false);
         if (data) {
             alert('Signup Successfull');
+            router.push(callbackUrl || '/')
+
         } else {
             alert(error?.message)
         }
@@ -160,9 +167,9 @@ export default function SignUpForm() {
                     {/* Sign-in link */}
                     <p className="text-center text-sm text-default-500 pt-1">
                         Already have an account?{" "}
-                        <a href="/sign-in" className="text-primary font-medium hover:underline">
+                        <Link href={`/sign-in?callbackUrl=${callbackUrl}`} className="text-primary font-medium hover:underline">
                             Sign in
-                        </a>
+                        </Link>
                     </p>
 
                 </Form>
