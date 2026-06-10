@@ -112,7 +112,7 @@ export default function JobCard({ job }) {
                         <p className="text-xs text-white/30">Closes {new Date(deadline).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}</p>
                     </div>
                     <Link href={`/jobs/${_id}`}>
-                        <Button size="sm" className={'text-xs rounded-md'}>
+                        <Button size="sm" className={'rounded-md bg-orange-500 hover:bg-orange-600'}>
                             Apply Now <ChevronRight />
                         </Button>
                     </Link>
