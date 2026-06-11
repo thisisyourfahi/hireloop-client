@@ -17,3 +17,10 @@ export const serverMutation = async (path, data) => {
     });
     return res.json()
 }
+
+export const serverDelete = async (path) => {
+    const res = await fetch(`${serverUrl}${path}`, {
+        method: 'DELETE'
+    });
+    return res.json();
+}

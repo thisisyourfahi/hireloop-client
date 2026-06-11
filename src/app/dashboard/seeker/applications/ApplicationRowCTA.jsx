@@ -3,8 +3,19 @@
 import { Button } from "@heroui/react";
 import { Eye, TrashBin, ArrowUpRight } from "@gravity-ui/icons";
 import Link from "next/link";
+import { deleteApplication } from "@/lib/actions/applications";
 
-export function ApplicationRowCTA({ application, onView, onDelete }) {
+export function ApplicationRowCTA({ application, onView, }) {
+    const handleDelete = async () => {
+        console.log('delete')
+        const res = await deleteApplication(application._id)
+
+        if (res.acknowledged) {
+            alert('Job Deleted Successfully!');
+            window.location.href='/dashboard/seeker/applications'
+        }
+        
+    }
     return (
         <div className="flex items-center justify-end gap-2">
             <Link href={`/dashboard/seeker/applications/view/${application._id}`}>
@@ -29,11 +40,10 @@ export function ApplicationRowCTA({ application, onView, onDelete }) {
 
             <Button
                 size="sm"
-                variant="flat"
-                className="text-red-400 bg-red-500/10 hover:bg-red-500/20 border-none"
-                startContent={<TrashBin width={14} height={14} />}
-                onPress={() => onDelete?.(application._id)}
+                className="text-red-400 bg-red-500/10 hover:bg-red-500/20"
+                onClick={handleDelete}
             >
+                <TrashBin />
                 Withdraw
             </Button>
         </div>

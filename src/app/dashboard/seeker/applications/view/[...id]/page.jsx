@@ -1,4 +1,5 @@
 import { getApplicationById } from "@/lib/api/applications";
+import Link from "next/link";
 
 function formatDate(iso) {
     return new Date(iso).toLocaleDateString("en-US", {
@@ -39,9 +40,15 @@ const ViewApplicationDetails = async ({ params }) => {
                         <Field label="Full Name" value={app.applicantName} />
                         <Field label="Email" value={app.applicantEmail} />
                         <Field label="Phone" value={app.phone} />
-                        <Field label="Portfolio" value={app.portfolio} />
-                        <Field label="LinkedIn" value={app.linkedin} />
-                        <Field label="Resume Link" value={app.resumeLink} />
+                        <Link target="_blank" className="line-clamp-1" href={app.portfolio}>
+                            <Field label="Portfolio" value={app.portfolio} />
+                        </Link>
+                        <Link target="_blank" className="line-clamp-1" href={app.linkedin}>
+                            <Field label="LinkedIn" value={app.linkedin} />
+                        </Link>
+                        <Link target="_blank" className="line-clamp-1" href={app.resumeLink}>
+                            <Field label="Resume Link" value={app.resumeLink} />
+                        </Link>
                     </div>
                 </div>
 
