@@ -67,7 +67,6 @@ const Sidebar = () => {
             <Drawer>
                 <Button className={'lg:hidden'} variant="secondary">
                     <LayoutSideContentLeft />
-                    Sidebar
                 </Button>
                 <Drawer.Backdrop>
                     <Drawer.Content placement="left">
