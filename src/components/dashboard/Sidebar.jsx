@@ -1,6 +1,6 @@
 'use client'
 import { authClient } from "@/lib/auth-client";
-import { LayoutSideContentLeft, Bell, Briefcase, Envelope, Gear, House, Magnifier, Person, Bookmark, CreditCard, LayoutList } from "@gravity-ui/icons";
+import { LayoutSideContentLeft, Bell, Briefcase, Envelope, Gear, House, Magnifier, Person, Persons, Factory, Bookmark, CreditCard, LayoutList } from "@gravity-ui/icons";
 import { Button, Drawer, DrawerCloseTrigger } from "@heroui/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,7 +16,7 @@ const recruiterNavItems = [
 ];
 
 const seekerNavItems = [
-    { icon: LayoutList, href: "/dashboard/seeker", label: 'Dashboard'}, 
+    { icon: LayoutList, href: "/dashboard/seeker", label: 'Dashboard' },
     { icon: Magnifier, href: "/dashboard/seeker/jobs", label: "Browse & Apply" },
     { icon: Bookmark, href: "/dashboard/seeker/saved", label: "Saved Jobs" },
     { icon: Briefcase, href: "/dashboard/seeker/applications", label: "My Applications" },
@@ -24,11 +24,27 @@ const seekerNavItems = [
     { icon: Gear, href: "/dashboard/seeker/settings", label: "Seeker Settings" },
 ];
 
+const adminNavItems = [
+    { icon: House, href: "/dashboard/admin", label: "Dashboard" },
+    { icon: Persons, href: "/dashboard/admin/users", label: "Manage Users" },
+    { icon: Factory, href: "/dashboard/admin/companies", label: "Manage Companies" },
+    { icon: Briefcase, href: "/dashboard/admin/jobs", label: "Manage Jobs" },
+    { icon: CreditCard, href: "/dashboard/admin/payments", label: "Payment & Subscriptions" },
+    { icon: Gear, href: "/dashboard/admin/settings", label: "Admin Settings" },
+];
+
+const getNavItems = {
+    seeker: seekerNavItems,
+    recruiter: recruiterNavItems,
+    admin: adminNavItems
+}
+
 const Sidebar = () => {
     const pathName = usePathname();
-    const {data:session} = authClient.useSession()
+    const { data: session } = authClient.useSession()
     const user = session?.user;
-    const navItems = user?.role === 'seeker' ? [...seekerNavItems] : [...recruiterNavItems];
+    const navItems = getNavItems[user?.role] ?? [];
+
 
     const navContent = <nav className="flex flex-col gap-1">
         {navItems.map((item) => (
