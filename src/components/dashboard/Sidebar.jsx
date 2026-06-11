@@ -1,20 +1,35 @@
 'use client'
-import { LayoutSideContentLeft, Bell, Briefcase, Envelope, Gear, House, Magnifier, Person } from "@gravity-ui/icons";
+import { authClient } from "@/lib/auth-client";
+import { LayoutSideContentLeft, Bell, Briefcase, Envelope, Gear, House, Magnifier, Person, Bookmark, CreditCard, LayoutList } from "@gravity-ui/icons";
 import { Button, Drawer, DrawerCloseTrigger } from "@heroui/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+const recruiterNavItems = [
+    { icon: House, href: "/dashboard/recruiter", label: "Home" },
+    { icon: Magnifier, href: "/dashboard/recruiter/jobs", label: "Jobs" },
+    { icon: Bell, href: "/dashboard/recruiter/jobs/new", label: "Post A Job" },
+    { icon: Briefcase, href: "/dashboard/recruiter/company", label: "Company Profile" },
+    { icon: Envelope, href: "/messages", label: "Messages" },
+    { icon: Person, href: "/profile", label: "Profile" },
+    { icon: Gear, href: "/settings", label: "Settings" },
+];
+
+const seekerNavItems = [
+    { icon: LayoutList, href: "/dashboard/seeker", label: 'Dashboard'}, 
+    { icon: Magnifier, href: "/dashboard/seeker/jobs", label: "Browse & Apply" },
+    { icon: Bookmark, href: "/dashboard/seeker/saved", label: "Saved Jobs" },
+    { icon: Briefcase, href: "/dashboard/seeker/applications", label: "My Applications" },
+    { icon: CreditCard, href: "/dashboard/seeker/billing", label: "Subscription & Billing" },
+    { icon: Gear, href: "/dashboard/seeker/settings", label: "Seeker Settings" },
+];
+
 const Sidebar = () => {
     const pathName = usePathname();
-    const navItems = [
-        { icon: House, href: "/dashboard/recruiter", label: "Home" },
-        { icon: Magnifier, href: "/dashboard/recruiter/jobs", label: "Jobs" },
-        { icon: Bell, href: "/dashboard/recruiter/jobs/new", label: "Post A Job" },
-        { icon: Briefcase, href: "/dashboard/recruiter/company", label: "Company Profile" },
-        { icon: Envelope, href: "/messages", label: "Messages" },
-        { icon: Person, href: "/profile", label: "Profile" },
-        { icon: Gear, href: "/settings", label: "Settings" },
-    ];
+    const {data:session} = authClient.useSession()
+    const user = session?.user;
+    console.log(user);
+    const navItems = user?.role === 'seeker' ? [...seekerNavItems] : [...recruiterNavItems];
 
     const navContent = <nav className="flex flex-col gap-1">
         {navItems.map((item) => (
