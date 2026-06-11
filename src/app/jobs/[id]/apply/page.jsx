@@ -27,6 +27,7 @@ const ApplyPage = async ({ params }) => {
         );
     }
 
+    console.log(user);
     // number of applications already made by the user
     const plan = await getPlanByName(user?.plan);
     console.log('refactor:',plan);
