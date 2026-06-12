@@ -105,7 +105,7 @@ const PostJobForm = ({ company }) => {
                 </div>
 
                 {
-                    company?.status === 'Pending' ? <>
+                    company?.status !== 'Approved' ? <>
                         <div className='text-center'>
 
                             <TriangleExclamationFill
