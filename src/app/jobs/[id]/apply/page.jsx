@@ -7,7 +7,6 @@ import { JobApplyForm } from './JobApplyForm';
 import { getApplicationsByApplicant } from '@/lib/api/applications';
 import { ShieldExclamation } from '@gravity-ui/icons';
 import { ApplicationLimit } from './ApplicationLimit';
-import { getUserById } from '@/lib/api/user';
 import { getPlanByName } from '@/lib/api/plans';
 
 const ApplyPage = async ({ params }) => {

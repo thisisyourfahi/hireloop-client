@@ -19,7 +19,6 @@ const CompanyRowCTA = ({ company }) => {
         const res = await updateCompany(company._id, { ...company, status: newStat });
         if (res) {
             setStatus(newStat);
-            router.refresh();
         }
         alert(`Company has been ${newStat}`);
         setLoading(null);

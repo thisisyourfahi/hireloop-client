@@ -1,5 +1,6 @@
 'use server'
 
+import { revalidatePath } from "next/cache"
 import { serverMutation, serverUpdate } from "../core/server"
 
 export const createCompany = async (newCompanyData) => {
@@ -7,5 +8,7 @@ export const createCompany = async (newCompanyData) => {
 }
 
 export const updateCompany = async (companyId, newCompanyData) => {
-    return serverUpdate(`/api/update/companies/${companyId}`, newCompanyData)
+    const result = await serverUpdate(`/api/update/companies/${companyId}`, newCompanyData)
+    revalidatePath('/dashboard/admin/companies');
+    return result;
 }

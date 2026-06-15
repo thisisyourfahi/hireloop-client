@@ -1,10 +1,9 @@
 import JobCard from '@/components/jobs/JobCard';
 import JobListingContainer from '@/components/jobs/JobListingContainer';
-import { getCompanyJobs, getJobs } from '@/lib/api/jobs';
+import { getJobs } from '@/lib/api/jobs';
 import React from 'react';
 
 const JobsPage = async () => {
-    // const jobs = await getCompanyJobs('')
     const jobs = await getJobs();
     return (
         <div className='p-4 space-y-8'>
