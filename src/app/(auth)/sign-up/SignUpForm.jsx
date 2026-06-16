@@ -28,13 +28,13 @@ export default function SignUpForm() {
         setIsLoading(true);
         const plan = role === 'seeker' ? 'seeker_free' : 'recruiter_free';
         const { data, error } = await authClient.signUp.email({
-            email, password, name, role, plan,
+            email, password, name, userRole: role, plan,
             image: imageUrl, callbackURL: callbackUrl || '/'
         })
         setIsLoading(false);
         if (data) {
             alert('Signup Successfull');
-            router.push(callbackUrl || '/')
+            // router.push(callbackUrl || '/')
 
         } else {
             alert(error?.message)

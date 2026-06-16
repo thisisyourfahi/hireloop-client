@@ -8,8 +8,8 @@ export const getJobById = async(jobId) => {
     return serverFetch(`/api/jobs/${jobId}`);
 }
 
-export const getJobs = async () => {
-    return protectedFetch('/api/jobs');
+export const getJobs = async (query = '') => {
+    return protectedFetch(`/api/jobs?${query}`);
 }
 
 export const getCompanyJobs = async (companyId, status = 'active') => {

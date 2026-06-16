@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField, InputGroup, Select, ListBox, Button } from "@heroui/react";
+import { TextField, InputGroup, Select, ListBox, Button, Label } from "@heroui/react";
 import { Magnifier, ChevronDown, Xmark } from "@gravity-ui/icons";
 
 export default function JobFilters({
@@ -75,9 +75,10 @@ export default function JobFilters({
                         <Select.Popover className="bg-zinc-800 border border-zinc-700 rounded-xl shadow-xl mt-1 overflow-hidden z-50">
                             <ListBox className="p-1">
                                 <ListBox.Item id="all" className="text-zinc-200 hover:bg-purple-600 hover:text-white rounded-lg px-3 py-2 text-sm cursor-pointer capitalize"><span>All Categories</span></ListBox.Item>
-                                <ListBox.Item id="engineering" className="text-zinc-200 hover:bg-purple-600 hover:text-white rounded-lg px-3 py-2 text-sm cursor-pointer capitalize"><span>Engineering</span></ListBox.Item>
+                                <ListBox.Item id="technology" className="text-zinc-200 hover:bg-purple-600 hover:text-white rounded-lg px-3 py-2 text-sm cursor-pointer capitalize"><span>Technology</span></ListBox.Item>
                                 <ListBox.Item id="design" className="text-zinc-200 hover:bg-purple-600 hover:text-white rounded-lg px-3 py-2 text-sm cursor-pointer capitalize"><span>Design</span></ListBox.Item>
-                                <ListBox.Item id="product" className="text-zinc-200 hover:bg-purple-600 hover:text-white rounded-lg px-3 py-2 text-sm cursor-pointer capitalize"><span>Product</span></ListBox.Item>
+                                <ListBox.Item id="marketing" className="text-zinc-200 hover:bg-purple-600 hover:text-white rounded-lg px-3 py-2 text-sm cursor-pointer capitalize"><span>Marketing</span></ListBox.Item>
+                                <ListBox.Item id="sales" className="text-zinc-200 hover:bg-purple-600 hover:text-white rounded-lg px-3 py-2 text-sm cursor-pointer capitalize"><span>Sales</span></ListBox.Item>
                             </ListBox>
                         </Select.Popover>
                     </Select>
@@ -98,6 +99,7 @@ export default function JobFilters({
                     {isFiltered && (
                         <Button
                             onClick={handleReset}
+                            className={'rounded-md bg-orange-500'}
                         >
                             <Xmark className="w-3.5 h-3.5" /> Clear
                         </Button>

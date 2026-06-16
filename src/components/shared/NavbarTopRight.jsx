@@ -32,7 +32,7 @@ const NavbarTopRight = () => {
                         <Link href={'/profile'}>Profile</Link>
                     </li>
                     <li>
-                        <Link href={`/dashboard/${user?.role}`}>Dashboard</Link>
+                        <Link href={`/dashboard/${user?.userRole}`}>Dashboard</Link>
                     </li>
                     <li>
                         <Button onClick={handleLogout} size="sm" variant="danger-soft" className={'rounded-sm w-full'}>Logout</Button>

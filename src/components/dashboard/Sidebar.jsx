@@ -43,7 +43,7 @@ const Sidebar = () => {
     const pathName = usePathname();
     const { data: session } = authClient.useSession()
     const user = session?.user;
-    const navItems = getNavItems[user?.role] ?? [];
+    const navItems = getNavItems[user?.userRole] ?? [];
 
 
     const navContent = <nav className="flex flex-col gap-1">

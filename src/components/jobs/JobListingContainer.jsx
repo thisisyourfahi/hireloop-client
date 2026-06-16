@@ -1,30 +1,52 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import JobCard from "@/components/jobs/JobCard";
 import JobFilters from "@/components/jobs/JobFilters";
+import { useRouter } from "next/navigation";
 
-export default function JobListingContainer({ initialJobs }) {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedType, setSelectedType] = useState("all");
-    const [selectedCategory, setSelectedCategory] = useState("all");
-    const [isRemoteOnly, setIsRemoteOnly] = useState(false);
+export default function JobListingContainer({filters, initialJobs }) {
+    const [searchQuery, setSearchQuery] = useState(filters.searchQeury);
+    const [selectedType, setSelectedType] = useState(filters.jobType || "all");
+    const [selectedCategory, setSelectedCategory] = useState(filters.jobCategory || "all");
+    const [isRemoteOnly, setIsRemoteOnly] = useState(filters.isRemote || false);
+    const filteredJobs = [...initialJobs]
+    const router = useRouter()
 
     // Compute matched filter rows instantly
-    const filteredJobs = useMemo(() => {
-        return initialJobs.filter((job) => {
-            const matchesSearch =
-                job.jobTitle?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                job.companyName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                job.requirements?.toLowerCase().includes(searchQuery.toLowerCase());
+    // const filteredJobs = useMemo(() => {
+    //     return initialJobs.filter((job) => {
+    //         const matchesSearch =
+    //             job.jobTitle?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    //             job.companyName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    //             job.requirements?.toLowerCase().includes(searchQuery.toLowerCase());
 
-            const matchesType = selectedType === "all" || job.jobType === selectedType;
-            const matchesCategory = selectedCategory === "all" || job.jobCategory === selectedCategory;
-            const matchesRemote = !isRemoteOnly || job.isRemote === true;
+    //         const matchesType = selectedType === "all" || job.jobType === selectedType;
+    //         const matchesCategory = selectedCategory === "all" || job.jobCategory === selectedCategory;
+    //         const matchesRemote = !isRemoteOnly || job.isRemote === true;
 
-            return matchesSearch && matchesType && matchesCategory && matchesRemote;
-        });
-    }, [searchQuery, selectedType, selectedCategory, isRemoteOnly, initialJobs]);
+    //         return matchesSearch && matchesType && matchesCategory && matchesRemote;
+    //     });
+    // }, [searchQuery, selectedType, selectedCategory, isRemoteOnly, initialJobs]);
+
+    useEffect(() => {
+        const sp = new URLSearchParams()
+        if (searchQuery) {
+            sp.set('searchQuery', searchQuery);
+        }
+        if (selectedType !== 'all') {
+            sp.set('jobType', selectedType)
+        } 
+        if (selectedCategory !== 'all') {
+            sp.set('jobCategory', selectedCategory)
+        }
+        if (isRemoteOnly) {
+            sp.set('isRemote', true);
+        }
+        const path = `?${sp.toString()}`
+        router.push(path);
+
+    }, [router, selectedType, selectedCategory, isRemoteOnly, searchQuery])
 
     return (
         <>
