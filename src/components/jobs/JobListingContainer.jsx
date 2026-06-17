@@ -4,14 +4,29 @@ import React, { useState, useMemo, useEffect } from "react";
 import JobCard from "@/components/jobs/JobCard";
 import JobFilters from "@/components/jobs/JobFilters";
 import { useRouter } from "next/navigation";
+import { Pagination } from "@heroui/react";
 
-export default function JobListingContainer({filters, initialJobs }) {
+export default function JobListingContainer({ filters, initialJobs }) {
     const [searchQuery, setSearchQuery] = useState(filters.searchQeury);
     const [selectedType, setSelectedType] = useState(filters.jobType || "all");
     const [selectedCategory, setSelectedCategory] = useState(filters.jobCategory || "all");
     const [isRemoteOnly, setIsRemoteOnly] = useState(filters.isRemote || false);
     const filteredJobs = [...initialJobs]
     const router = useRouter()
+
+    const [page, setPage] = useState(filters.page || 1);
+    const totalItems = initialJobs.length || 0;
+    const itemsPerPage = 6;
+    const totalPages = Math.ceil(initialJobs.length / itemsPerPage);
+
+    const getPageNumbers = () => {
+        const pages = [1, 2, 3]
+        return pages;
+    }
+
+    const startItem = ((page - 1) * itemsPerPage) + 1;
+    const endItem = (page * itemsPerPage)
+
 
     // Compute matched filter rows instantly
     // const filteredJobs = useMemo(() => {
@@ -36,17 +51,21 @@ export default function JobListingContainer({filters, initialJobs }) {
         }
         if (selectedType !== 'all') {
             sp.set('jobType', selectedType)
-        } 
+        }
         if (selectedCategory !== 'all') {
             sp.set('jobCategory', selectedCategory)
         }
         if (isRemoteOnly) {
             sp.set('isRemote', true);
         }
+        if (page) {
+            sp.set('page', page);
+        }
+
         const path = `?${sp.toString()}`
         router.push(path);
 
-    }, [router, selectedType, selectedCategory, isRemoteOnly, searchQuery])
+    }, [page, router, selectedType, selectedCategory, isRemoteOnly, searchQuery])
 
     return (
         <>
@@ -66,14 +85,49 @@ export default function JobListingContainer({filters, initialJobs }) {
             </div>
 
             {filteredJobs.length > 0 ? (
-                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-                    {filteredJobs.map((jobItem) => (
-                        <JobCard
-                            key={jobItem._id?.$oid || jobItem._id}
-                            job={jobItem}
-                        />
-                    ))}
-                </div>
+                <>
+                    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+                        {filteredJobs.map((jobItem) => (
+                            <JobCard
+                                key={jobItem._id?.$oid || jobItem._id}
+                                job={jobItem}
+                            />
+                        ))}
+                    </div>
+
+                    <Pagination className="w-full">
+                        <Pagination.Summary>
+                            Showing {startItem}-{endItem}
+                        </Pagination.Summary>
+                        <Pagination.Content>
+                            <Pagination.Item>
+                                <Pagination.Previous isDisabled={page === 1} onPress={() => setPage((p) => p - 1)}>
+                                    <Pagination.PreviousIcon />
+                                    <span>Previous</span>
+                                </Pagination.Previous>
+                            </Pagination.Item>
+                            {getPageNumbers().map((p, i) =>
+                                p === "ellipsis" ? (
+                                    <Pagination.Item key={`ellipsis-${i}`}>
+                                        <Pagination.Ellipsis />
+                                    </Pagination.Item>
+                                ) : (
+                                    <Pagination.Item key={p}>
+                                        <Pagination.Link isActive={p === page} onPress={() => setPage(p)}>
+                                            {p}
+                                        </Pagination.Link>
+                                    </Pagination.Item>
+                                ),
+                            )}
+                            <Pagination.Item>
+                                <Pagination.Next isDisabled={page === totalPages} onPress={() => setPage((p) => p + 1)}>
+                                    <span>Next</span>
+                                    <Pagination.NextIcon />
+                                </Pagination.Next>
+                            </Pagination.Item>
+                        </Pagination.Content>
+                    </Pagination>
+                </>
             ) : (
                 <div className="text-center py-20 border border-dashed border-zinc-800 rounded-[32px] max-w-7xl mx-auto">
                     <p className="text-zinc-500 text-lg">No positions match your search criteria.</p>
